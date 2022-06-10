@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PeliculasWebAPI.Entidades;
+using PeliculasWebAPI.Entidades.Funciones;
 
 namespace PeliculasWebAPI.Controllers {
     [ApiController]
@@ -9,6 +11,20 @@ namespace PeliculasWebAPI.Controllers {
 
         public FacturaController(ApplicationDBContext context) {
             this.context = context;
+        }
+
+        [HttpGet("Func_Esca")]
+        public async Task<IActionResult> GetFuncEsc() {
+            var facturas = await context.Facturas
+                                        .Select(f => new {
+                                            Id       = f.Id,
+                                            Total    = context.FacturaDetalleSuma(f.Id),
+                                            Promedio = Escalares.FacturaDetallePromedio(f.Id)
+                                        })
+                                        .OrderByDescending(f => context.FacturaDetalleSuma(f.Id))
+                                        .ToListAsync();
+
+            return Ok(facturas);
         }
 
         [HttpPost]

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PeliculasWebAPI.Entidades;
 using PeliculasWebAPI.Entidades.Configuraciones;
+using PeliculasWebAPI.Entidades.Funciones;
 using PeliculasWebAPI.Entidades.Seeding;
 using PeliculasWebAPI.Entidades.SinLlaves;
 using PeliculasWebAPI.Servicios;
@@ -83,6 +84,10 @@ namespace PeliculasWebAPI {
 
             SeedingModuloConsulta.Seed(modelBuilder);
             SeedingPersonaMensaje.Seed(modelBuilder);
+            SeedingFacturas.Seed(modelBuilder);
+
+            /* Registro de Clase Auxiliar de Funciones Definidas por el Usuario */
+            Escalares.RegistrarFunciones(modelBuilder);
 
             /* modelBuilder.Entity<Log>()
                         .Property(l => l.Id)
@@ -149,6 +154,12 @@ namespace PeliculasWebAPI {
 
             modelBuilder.Entity<Mercancia>().HasData(mercancia1);
             modelBuilder.Entity<PeliculaAlquilable>().HasData(pelicula1);
+        }
+
+        /* Primera Forma de utilizar las funciones definidas por el Usuario desde EF */
+        [DbFunction]
+        public int FacturaDetalleSuma(int facturaId) {
+            return 0;
         }
 
         public DbSet<Genero> Generos { get; set; }
