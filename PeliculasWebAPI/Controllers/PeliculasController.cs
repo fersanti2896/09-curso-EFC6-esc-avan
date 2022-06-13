@@ -216,5 +216,17 @@ namespace PeliculasWebAPI.Controllers {
         public async Task<ActionResult<IEnumerable<PeliculaConteos>>> GetPeliculasConteos() {
             return await context.PeliculasConteos.ToListAsync();
         }
+
+        [HttpGet("peliculasConteos/{id:int}")]
+        public async Task<ActionResult<PeliculaConteos>> GetPeliculasConteos(int id) {
+            var result = await context.PeliculaConteo(id)
+                                      .FirstOrDefaultAsync();
+
+            if (result is null) {
+                return NotFound();
+            }
+
+            return result;
+        }
     }
 }

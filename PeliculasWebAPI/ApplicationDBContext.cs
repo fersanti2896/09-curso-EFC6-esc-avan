@@ -107,7 +107,7 @@ namespace PeliculasWebAPI {
                         .ToView("PeliculasConteos"); */
 
             /* Centralizando el querie arbitrario */
-            modelBuilder.Entity<PeliculaConteos>()
+            /* modelBuilder.Entity<PeliculaConteos>()
                         .ToSqlQuery(@"SELECT Id, Titulo,
                                     (SELECT COUNT(*) FROM GeneroPelicula
                                      WHERE PeliculasId = Peliculas.Id)
@@ -120,7 +120,13 @@ namespace PeliculasWebAPI {
                                     (SELECT COUNT(*) FROM PeliculasActores
                                     WHERE PeliculaId = Peliculas.Id)
                                     AS CantidadActores
-                                    FROM Peliculas");
+                                    FROM Peliculas"); */
+
+            /* Para usar la función definida por el usuario */
+            modelBuilder.Entity<PeliculaConteos>().HasNoKey()
+                                                  .ToTable(name: null);
+
+            modelBuilder.HasDbFunction(() => PeliculaConteo(0));
 
             /* Configuracion para una tipo de dato URL */
             foreach (var tipoEntidad in modelBuilder.Model.GetEntityTypes()) {
@@ -160,6 +166,11 @@ namespace PeliculasWebAPI {
         [DbFunction]
         public int FacturaDetalleSuma(int facturaId) {
             return 0;
+        }
+
+        /* Función con Valores de Tablas */
+        public IQueryable<PeliculaConteos> PeliculaConteo(int peliculaId) {
+            return FromExpression(() => PeliculaConteo(peliculaId));
         }
 
         public DbSet<Genero> Generos { get; set; }

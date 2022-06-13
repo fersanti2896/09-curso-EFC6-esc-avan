@@ -3,6 +3,7 @@ ___
 
 1. __Funciones Escalares.__
 2. __Funciones con Valores de Tabla.__
+3. __Columnas Calculadas.__
 
 #### Funciones Escalares
 
@@ -46,3 +47,32 @@ Desde nuestra terminal vemos el query SQL que se ejecutó.
 ![resultCmd](/PeliculasWebAPI/images/funcionesDefinidas%20Result%20cmd.PNG)
 
 #### Funciones con Valores de Tabla
+
+Son definidas por el usuario que envés de devolver un escalar retorna un conjunto de resultados, es decir, filas y columnas
+
+Vamos a definir una vista pero como una función definia por el usuario, creamos una migración. 
+
+![funcionVTmigration](/PeliculasWebAPI/images/funcionesValoresTabla%20migration.png)
+
+En nuestro `ApplicationDBContext.cs` definimos las siguiente código para usar la función que creamos. 
+
+        /* Para usar la función definida por el usuario */
+        modelBuilder.Entity<PeliculaConteos>()
+                    .HasNoKey()
+                    .ToTable(name: null);
+
+        modelBuilder.HasDbFunction(() => PeliculaConteo(0));
+
+Ademá de definir una función que devolverá lo que queremos. 
+
+![funcionDbContext](/PeliculasWebAPI/images/funcionesValoresTabla%20dbContext.png)
+
+En nuestro `PeliculasController.cs` definimos un nuevo `endpoint` de tipo `GET` que nos devolverá la función que definimos. 
+
+![peliculaControllFVT](/PeliculasWebAPI/images/peliculasConteo%20FuncionVT.png)
+
+Al probar el `endpoint` obtenemos un status `200`.
+
+![resultFVT](/PeliculasWebAPI/images/funcionesValoresTabla%20Result.PNG)
+
+#### Columnas Calculadas
