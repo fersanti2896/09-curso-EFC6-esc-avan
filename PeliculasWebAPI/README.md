@@ -4,6 +4,7 @@ ___
 1. __Funciones Escalares.__
 2. __Funciones con Valores de Tabla.__
 3. __Columnas Calculadas.__
+4. __Secuencias.__
 
 #### Funciones Escalares
 
@@ -76,3 +77,32 @@ Al probar el `endpoint` obtenemos un status `200`.
 ![resultFVT](/PeliculasWebAPI/images/funcionesValoresTabla%20Result.PNG)
 
 #### Columnas Calculadas
+
+Nos permiten automatizar el llenado de las columnas con el resultado de alguna operación, existen dos tipos de columnas calculadas: 
+
+- Las que guardan el valor final en la columna. 
+- Las que no la hacen, calcula su valor en base a su consulta, sin embargo esta operación puede consumir tiempo de ejecución. 
+
+Por ejemplo, si queremos agregar una columna de Total y Cantidad a nuestra entidad `FacturaDetalle.cs`. 
+
+![facturaDetalle](/PeliculasWebAPI/images/FacturaDetalle.png)
+
+Al hacer su configuración, usamos el método `HasComputedColumnSql()` donde guardaremos el valor en la columna calculada. 
+
+![FacturaDetalleConfig](/PeliculasWebAPI/images/FacturaDetalleConfig.png)
+
+Hacemos la migración. 
+
+![migracionFacturaDetalle](/PeliculasWebAPI/images/TotalCalculadoMigracion.png)
+
+Creamos un nuevo `endpoint` en nuestro `FacturaController.cs` de tipo `GET` el cual nos traerá la información de un registro con la columna que agregamos. 
+
+![facturaController](/PeliculasWebAPI/images/FacturaDetalleController.png)
+
+Al probar, obtenemos un status `200` con el resultado esperado. 
+
+![columnCalcResult](/PeliculasWebAPI/images/Columnas%20Calculadas%20Result.PNG)
+
+
+#### Secuencias
+

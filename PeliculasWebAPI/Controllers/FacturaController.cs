@@ -64,5 +64,13 @@ namespace PeliculasWebAPI.Controllers {
                 return BadRequest("Hubo un error, se revirtió la operación");
             }  
         }
+
+        [HttpGet("{id:int}/detalle")]
+        public async Task<ActionResult<IEnumerable<FacturaDetalle>>> GetDetalle(int id) { 
+            return await context.FacturaDetalles
+                                .Where(f => f.FacturaId == id)
+                                .OrderByDescending(f => f.Total)
+                                .ToListAsync();
+        }
     }
 }
