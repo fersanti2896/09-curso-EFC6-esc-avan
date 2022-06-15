@@ -13,6 +13,26 @@ namespace PeliculasWebAPI.Controllers {
             this.context = context;
         }
 
+        [HttpGet("ObtenerFactura")]
+        public async Task<ActionResult<Factura>> ObtenerFactura(int id) {
+            var factura = await context.Facturas
+                                       .FirstOrDefaultAsync(f => f.Id == id);
+
+            if (factura is null) {
+                return NotFound();
+            }
+
+            return factura;
+        }
+
+        [HttpPut("ActualizarFactura")]
+        public async Task<ActionResult> ActualizarFactura(Factura factura) {
+            context.Update(factura);
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
+
         [HttpGet("Func_Esca")]
         public async Task<IActionResult> GetFuncEsc() {
             var facturas = await context.Facturas
