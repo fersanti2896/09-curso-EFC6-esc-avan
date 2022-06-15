@@ -6,6 +6,9 @@ namespace PeliculasWebAPI.Entidades.Configuraciones {
         public void Configure(EntityTypeBuilder<Factura> builder){
             builder.HasMany(typeof(FacturaDetalle))
                    .WithOne();
+
+            builder.Property(f => f.NumFactura)
+                   .HasDefaultValueSql("NEXT VALUE FOR factura.NumFactura");
         }
     }
 }

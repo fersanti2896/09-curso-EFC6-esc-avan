@@ -89,6 +89,9 @@ namespace PeliculasWebAPI {
             /* Registro de Clase Auxiliar de Funciones Definidas por el Usuario */
             Escalares.RegistrarFunciones(modelBuilder);
 
+            /* Creamos la secuencia numero de factura */
+            modelBuilder.HasSequence<int>("NumFactura", "factura");
+
             /* modelBuilder.Entity<Log>()
                         .Property(l => l.Id)
                         .ValueGeneratedNever(); */

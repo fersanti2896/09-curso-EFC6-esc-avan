@@ -5,6 +5,7 @@ ___
 2. __Funciones con Valores de Tabla.__
 3. __Columnas Calculadas.__
 4. __Secuencias.__
+5. __Conflicto de Concurrencia por Campo.__
 
 #### Funciones Escalares
 
@@ -103,6 +104,32 @@ Al probar, obtenemos un status `200` con el resultado esperado.
 
 ![columnCalcResult](/PeliculasWebAPI/images/Columnas%20Calculadas%20Result.PNG)
 
-
 #### Secuencias
 
+Si queremos agregar una columna de sencuencia que permita tener valores de tipo _id_ usamos la forma secuencia. 
+
+Supongamos que queremos tener una secuencia de factura, modificamos nuestra `Factura.cs` donde agremos una nueva columna que tendrá la secuencia.
+
+![facturaSencuencia](/PeliculasWebAPI/images/facturaSecuencia.png)
+
+En nuestro `ApplicationDBContext.cs` agregamos la siguiente línea el cual va mapear la secuencia hacia el esquema. 
+
+    /* Creamos la secuencia numero de factura */
+    modelBuilder.HasSequence<int>("NumFactura", "factura");
+
+Modificamos nuestro `FacturaConfig.cs` para agregar la línea:
+
+    builder.Property(f => f.NumFactura)
+            .HasDefaultValueSql("NEXT VALUE FOR factura.NumFactura");
+
+El cual va asignar el siguiente valor para la columna _NumFactura_ de tipo secuencia. 
+
+Hacemos nuestra migración y empujamos los cambios hacia la Base de Datos. 
+
+![migracionSecuencia](/PeliculasWebAPI/images/migracionSecuencia.png)
+
+Al actualizar nuestra Base de Datos, vemos reflejado los cambios. 
+
+![facturaBD](/PeliculasWebAPI/images/NumFactura%20Result.PNG)
+
+#### Conflicto de Concurrencia por Campo
