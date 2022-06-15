@@ -9,6 +9,9 @@ namespace PeliculasWebAPI.Entidades.Configuraciones {
 
             builder.Property(f => f.NumFactura)
                    .HasDefaultValueSql("NEXT VALUE FOR factura.NumFactura");
+
+            /** builder.Property(f => f.Version)
+                   .IsRowVersion(); */
         }
     }
 }

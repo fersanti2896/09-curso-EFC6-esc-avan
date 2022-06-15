@@ -7,6 +7,7 @@ ___
 4. __Secuencias.__
 5. __Conflicto de Concurrencia por Campo.__
 6. __Conflictos de Concurrencia por Fila.__
+7. __Manejo de Conflictos de Concurrencia.__
 
 #### Funciones Escalares
 
@@ -178,4 +179,38 @@ En nuestra tabla de Generos de nuestra Base de Datos, ya aparece el registro cor
 ![generoDB3](/PeliculasWebAPI/images/GeneroDB3.PNG)
 
 #### Conflictos de Concurrencia por Fila
+
+En el anterior punto vimos el conflicto de concurrencia por un campo, aquí se hará si algunos de los campos de la fila están siendo actualizados al mismo tiempo.
+
+Por ejemplo, en nuestra entidad `Factura.cs` no queremos que dos personas actualicen una misma factura al mismo tiempo usando la propiedad `[Timestamp]`. 
+
+![facturaConcu](/PeliculasWebAPI/images/FacturaConcurrencia.png)
+
+Aunque podemos hacer la misma configuración desde el `API Fluent` con el método `IsRowVersion()`.
+
+_Opcional en el API Fluent_
+
+    builder.Property(f => f.Version).IsRowVersion();
+
+Aplicamos una migración para que los cambios se ejecuten en la Base de Datos. 
+
+![facturaConcurrenciaMigracion](/PeliculasWebAPI/images/FacturaConcurrencia%20Migracion.png)
+
+Creamos un `endpoint` que simulará la doble actualización de una factura al mismo en nuestro `FacturasController.cs`.
+
+![facturasControllerConcu](/PeliculasWebAPI/images/FacturaController%20Concurrencia.png)
+
+Verificamos de manera inicial nuestra tabla de Facturas en nuestra Base de Datos. 
+
+![facturasDB1](/PeliculasWebAPI/images/FacturaDB1.PNG)
+
+Al ejecutar, recibimos un status `500` el cual nos indica que dos personas quieren actualizar el mismo registro al mismo tiempo. 
+
+![concurrenciaResult](/PeliculasWebAPI/images/Facturas%20Concurrencia%20Fila%20Result.PNG)
+
+Al verificar de nuevo nuestra tabla de Facturas en nuestra Base de Datos, notamos que solo se actualizó un registro, pero no ambos. 
+
+![facturasDB2](/PeliculasWebAPI/images/FacturaDB2.PNG)
+
+#### Manejo de Conflictos de Concurrencia
 

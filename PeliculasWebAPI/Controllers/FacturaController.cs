@@ -72,5 +72,25 @@ namespace PeliculasWebAPI.Controllers {
                                 .OrderByDescending(f => f.Total)
                                 .ToListAsync();
         }
+
+        [HttpPost("Concurrencia_Fila")]
+        public async Task<ActionResult> ConcurrenciaFila() {
+            var facturaId = 2;
+
+            var factura   = await context.Facturas
+                                         .AsTracking()
+                                         .FirstOrDefaultAsync(f => f.Id == facturaId);
+
+            factura.FechaCreacion = DateTime.Now;
+
+            await context.Database
+                         .ExecuteSqlInterpolatedAsync(@$"UPDATE Facturas 
+                                                         SET FechaCreacion = GetDate()
+                                                         WHERE Id = {facturaId}" );
+
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }
