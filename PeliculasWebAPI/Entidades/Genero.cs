@@ -14,6 +14,9 @@ namespace PeliculasWebAPI.Entidades {
         
         /* Forma de que el campo no sea nulo */
         //[Required]
+
+        /* Verifica que la data no haya sido actualizada por esta persona al mismo tiempo */
+        [ConcurrencyCheck]
         public string Nombre { get; set; }
         public HashSet<Pelicula> Peliculas { get; set; }
         public bool EstaBorrado { get; set; }

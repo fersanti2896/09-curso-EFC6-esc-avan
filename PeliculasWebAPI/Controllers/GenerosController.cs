@@ -228,5 +228,26 @@ namespace PeliculasWebAPI.Controllers {
 
             return Ok(id);
         }
+
+        [HttpPost("concurrency_token")]
+        public async Task<ActionResult> ConcurrencyToken() {
+            var generoId = 1;
+
+            // Fernando lee el registro de la BD.
+            var genero    = await context.Generos
+                                         .AsTracking()
+                                         .FirstOrDefaultAsync(g => g.Identificador == generoId);
+            genero.Nombre = "Fernando estuvo aquí";
+
+            // Claudia actualiza el registro en la BD.
+            await context.Database
+                         .ExecuteSqlInterpolatedAsync(@$"UPDATE Generos 
+                                                         SET Nombre = 'Claudia estuvo aquí' 
+                                                         WHERE Identificador = {generoId}");
+            // Fernando intenta actualizar.
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }

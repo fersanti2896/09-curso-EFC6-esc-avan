@@ -6,6 +6,7 @@ ___
 3. __Columnas Calculadas.__
 4. __Secuencias.__
 5. __Conflicto de Concurrencia por Campo.__
+6. __Conflictos de Concurrencia por Fila.__
 
 #### Funciones Escalares
 
@@ -133,3 +134,48 @@ Al actualizar nuestra Base de Datos, vemos reflejado los cambios.
 ![facturaBD](/PeliculasWebAPI/images/NumFactura%20Result.PNG)
 
 #### Conflicto de Concurrencia por Campo
+
+Ocurren cuandos dos personas intentan realizar un cambio sobre un registro y por error el cambio de la segunda persona sobreescribe el cambio realizado por la primera persona. 
+
+Esto se puede solucionar por campo o por fila, en el caso del campo, el manejo se hace a nivel de un único campo y no de todos. 
+
+Por ejemplo, en nuestro `GenerosController.cs` creamos un `endpoint` que simulará un registro de concurrencia. 
+
+![generosControllerConc](/PeliculasWebAPI/images/ConcurrenciaGenerosController.png)
+
+Por lo que al principio, nuestra tabla _Generos_ de nuestra Base de Datos, se encuentra: 
+
+![GeneroDB1](/PeliculasWebAPI/images/GeneroDB1.PNG)
+
+Al probar los resultados, obtenemos un status `200`. 
+
+![ConcurrenciaResu](/PeliculasWebAPI/images/Concurrencia%20Result.PNG)
+
+Al verificar nuestra tabla de _Generos_ vemos que se realizó el cambió pero se sobreescribió el registro. 
+
+![GenerosDB2](/PeliculasWebAPI/images/GeneroDB2.PNG)
+
+Para evitar este error, si queremos hacer una verificación de concurrencia para el campo _Nombre_ de la entidad `Genero.cs` con la propiedad `[ConcurrencyCheck]`, el cual verificar que la data no haya sido actualiza por alguien más al mismo tiempo.
+
+![GeneroConcurrencia](/PeliculasWebAPI/images/Genero%20Concurrencia.png)
+
+Otra forma de validar que un campo no se actualice por otra persona al mismo tiempo, lo podemos configurar en el `API Fluent` de la entidad, con la propiedad `IsConcurrencyToken()`.
+
+_Opcional en el API Fluent_
+
+    /* Damos propiedades al campo Nombre de la clase Genero */
+    builder.Property(prop => prop.Nombre)
+           .HasMaxLength(150)
+           .IsRequired()
+           .IsConcurrencyToken();
+
+Al probar de nuevo, recibimos un status `500`, porque ya hay un conflicto de que un registro se está intentando actualizar al mismo tiempo, solo ejecutará la actualiación de la primera persona que hizo dicha actualización. 
+
+![ConcucrenciResult2](/PeliculasWebAPI/images/Concurrencia%20Result%202.PNG)
+
+En nuestra tabla de Generos de nuestra Base de Datos, ya aparece el registro correcto. 
+
+![generoDB3](/PeliculasWebAPI/images/GeneroDB3.PNG)
+
+#### Conflictos de Concurrencia por Fila
+
