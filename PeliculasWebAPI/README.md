@@ -10,6 +10,7 @@ ___
 7. __Manejo de Conflictos de Concurrencia.__
 8. __Conflictos de Concurrencia con el Modelo Desconectado.__
 9. __Tablas Temporales.__
+10. __CUD en la Tabla Temporal.__
 
 #### Funciones Escalares
 
@@ -283,4 +284,24 @@ Al volver a consultar nuestra tabla Generos de nuestra Base de Datos, ya tenemos
 ![generosDB5](/PeliculasWebAPI/images/GeneroDB5.PNG)
 
 #### Tablas Temporales
+
+En una tabla temporal cuando se crea, crea una tabla de tipo historia, donde guarda los históricos de los cambios cuando se hacen un actualizado o eliminado de un registro. 
+
+Para configurarlo, podemos hacerlo desde el _API Fluent_ de `GeneroConfig.cs`.
+
+![generoConfig](/PeliculasWebAPI/images/GeneroTablaTemporal.png)
+
+Posterior hacemos la migración y empujamos los cambios hacia nuestra Base de Datos. 
+
+![generoMigracion](/PeliculasWebAPI/images/GeneroTablaTemporal%20Migracion.png)
+
+Por lo cual se generan dos tablas o versiones, la primera es donde tienen los datos como se conocen, solo que se agrega dos campos de `PeriodStart` y `PeriodEnd`.
+
+![generoTablaTemporalN](/PeliculasWebAPI/images/GeneroTablaTemporal%20Normal.PNG)
+
+En la segunda tabla muestra el historico y se irá actualizando a medida de que se hagan actualización o eliminación de registros. 
+
+![generoTTHistorico](/PeliculasWebAPI/images/GeneroTablaTemporal%20Historico.PNG)
+
+#### CUD en la Tabla Temporal
 

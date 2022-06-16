@@ -6,7 +6,17 @@ namespace PeliculasWebAPI.Entidades.Configuraciones {
         /* Colocamos las configuraciones que está en el API Fluente */
         public void Configure(EntityTypeBuilder<Genero> builder) {
             /* Renombrando la tabla Generos por TGeneros */
-            //builder.ToTable(name: "TGeneros", schema: "Peliculas");
+            builder.ToTable(name: "Generos", opciones => {
+                opciones.IsTemporal();
+            });
+
+            /* Configura columna de tipo PeriodStart */
+            builder.Property("PeriodStart")
+                   .HasColumnType("datetime2");
+
+            /* Configura la columna de tipo PeriodEnd */
+            builder.Property("PeriodEnd")
+                   .HasColumnType("datetime2");
 
             /* Hacemos el atributo identificador de la clase Genero llave primaria */
             builder.HasKey(prop => prop.Identificador);
