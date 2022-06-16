@@ -8,6 +8,7 @@ ___
 5. __Conflicto de Concurrencia por Campo.__
 6. __Conflictos de Concurrencia por Fila.__
 7. __Manejo de Conflictos de Concurrencia.__
+8. __Conflictos de Concurrencia con el Modelo Desconectado.__
 
 #### Funciones Escalares
 
@@ -213,4 +214,21 @@ Al verificar de nuevo nuestra tabla de Facturas en nuestra Base de Datos, notamo
 ![facturasDB2](/PeliculasWebAPI/images/FacturaDB2.PNG)
 
 #### Manejo de Conflictos de Concurrencia
+
+Al momento solo hemos visto los conflictos al usar concurrencia, por lo que cual veremos la forma de manejar los conflictos, se manejan dos exceopciones, el primero es el valor que se quiso ejecutar y el segundo el valor anterior antes de actualizarse. 
+
+En nuestro `FacturasController.cs` creamos un `endpoint` que simulará el manejo de los conflictos. 
+
+![facturaControllerManConcu](/PeliculasWebAPI/images/FacturaController%20Manejo%20Concurrencia.png)
+
+Si probamos, nos devuelve un status `400` y es porque ya un usuario antes actualizó el registro, por el cual devuelve un error. 
+
+![manejoConcurrencia1](/PeliculasWebAPI/images/ManejoConcurrencia%20Result.PNG)
+
+Visto desde nuestra consola: 
+
+![manejoConcurrencia2](/PeliculasWebAPI/images/ManejoConcurrencia%20Result%20Cmd.PNG)
+
+#### Conflictos de Concurrencia con el Modelo Desconectado
+
 
