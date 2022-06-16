@@ -9,6 +9,7 @@ ___
 6. __Conflictos de Concurrencia por Fila.__
 7. __Manejo de Conflictos de Concurrencia.__
 8. __Conflictos de Concurrencia con el Modelo Desconectado.__
+9. __Tablas Temporales.__
 
 #### Funciones Escalares
 
@@ -231,4 +232,55 @@ Visto desde nuestra consola:
 
 #### Conflictos de Concurrencia con el Modelo Desconectado
 
+Por el momento solo hemos visto los conflictos de concurrencia para el modelo conectado, en este punto lo veremos desde el modelo desconectado, como en ambientes Web. 
+
+Creamos dos nuevos `endpoint`, uno para obtener una factura y otra para actualizar la factura. 
+
+Para obtener una factura.
+
+![obtFactura](/PeliculasWebAPI/images/FacturaController%20ObtFact.png)
+
+Para actualizar una factura. 
+
+![actFactura](/PeliculasWebAPI/images/FacturaController%20ActFact.png)
+
+Al probar, vemos que en ambos nos devuelve un status `200`. 
+
+Para obtener una factura.
+
+![resultObtFac](/PeliculasWebAPI/images/ObtenerFactura%20Result.PNG)
+
+Para actualizar una factura. 
+
+![resultActFac](/PeliculasWebAPI/images/ActualizarFactura%20Result.PNG)
+
+El problema es cuando intentamos actualizar de nuevo el registro, nos devuelve un status `500`.
+
+![errorActFac](/PeliculasWebAPI/images/ActualizarFactura%20Result%202.PNG)
+
+Este mismo caso pasa en `GenerosController.cs` por el cual haremos cambios, primero creamos un DTO el cual va permitir actualizar el registro. 
+
+![generoDTO](/PeliculasWebAPI/images/GeneroDTO.png)
+
+En nuestro `AutoMapperProfile.cs` mapeamos nuestro DTO con nuestra entidad de `Genero.cs`.
+
+    CreateMap<GeneroActualizacionDTO, Genero>();
+
+En nuestro `GenerosController.cs` modificamos nuestro `endpoint` de tipo `PUT` para que pueda solucionarse el conflicto de concurrencia. 
+
+![generosControllePut](/PeliculasWebAPI/images/GenerosControllerPUT.png)
+
+Vemos que nuestra tabla Generos en nuestra Base de Datos, tenemos los registros. 
+
+![generosDB4](/PeliculasWebAPI/images/GeneroDB4.PNG)
+
+Al hacer la actualización, recibimos un status `200`. 
+
+![conflictosResult](/PeliculasWebAPI/images/ConflictosConcurrencia%20Result.PNG)
+
+Al volver a consultar nuestra tabla Generos de nuestra Base de Datos, ya tenemos el registro actualizado. 
+
+![generosDB5](/PeliculasWebAPI/images/GeneroDB5.PNG)
+
+#### Tablas Temporales
 

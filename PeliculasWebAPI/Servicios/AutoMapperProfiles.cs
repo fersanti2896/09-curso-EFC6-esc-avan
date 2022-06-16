@@ -89,6 +89,7 @@ namespace PeliculasWebAPI.Servicios {
             CreateMap<PeliculaActorCreacionDTO, PeliculaActor>();
 
             CreateMap<ActorCreacionDTO, Actor>();
+            CreateMap<GeneroActualizacionDTO, Genero>();
         }
     }
 }

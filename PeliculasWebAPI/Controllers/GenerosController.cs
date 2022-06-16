@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using PeliculasWebAPI.DTOs;
 using PeliculasWebAPI.Entidades;
 
 namespace PeliculasWebAPI.Controllers {
@@ -8,9 +10,11 @@ namespace PeliculasWebAPI.Controllers {
     [Route("api/generos")]
     public class GenerosController : ControllerBase {
         private readonly ApplicationDBContext context;
+        private readonly IMapper mapper;
 
-        public GenerosController(ApplicationDBContext context) {
+        public GenerosController(ApplicationDBContext context, IMapper mapper) {
             this.context = context;
+            this.mapper  = mapper;
         }
 
         /* endpoint */
@@ -185,8 +189,14 @@ namespace PeliculasWebAPI.Controllers {
         }
 
         [HttpPut]
-        public async Task<ActionResult> Put(Genero genero) {
+        public async Task<ActionResult> Put(GeneroActualizacionDTO generoActualizacionDTO) {
+            var genero = mapper.Map<Genero>(generoActualizacionDTO);
+
             context.Update(genero);
+            context.Entry(genero)
+                   .Property(g => g.Nombre)
+                   .OriginalValue = generoActualizacionDTO.Nombre_Original;
+
             await context.SaveChangesAsync();
 
             return Ok();
