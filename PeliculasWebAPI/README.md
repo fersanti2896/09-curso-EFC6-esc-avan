@@ -11,6 +11,7 @@ ___
 8. __Conflictos de Concurrencia con el Modelo Desconectado.__
 9. __Tablas Temporales.__
 10. __CUD en la Tabla Temporal.__
+11. __Consultando la Tabla Temporal e Histórica.__
 
 #### Funciones Escalares
 
@@ -304,4 +305,36 @@ En la segunda tabla muestra el historico y se irá actualizando a medida de que 
 ![generoTTHistorico](/PeliculasWebAPI/images/GeneroTablaTemporal%20Historico.PNG)
 
 #### CUD en la Tabla Temporal
+
+Creamos un nuevo genero y se da el registro en nuestra tabla temporal de Generos. 
+
+![generoDB6](/PeliculasWebAPI/images/GeneroDB6.PNG)
+
+Al actualizar el registo desde nuestro `endpoint` obtenemos un status `200`.
+
+![actuGeneroTempo](/PeliculasWebAPI/images/PutGeneros.PNG)
+
+Al visualizar las tabla Generos Temporal e Historico, esto obtenemos, en la tabla Genero Temporal tenemos el nuevo PeriodStart con la nueva actualización mientras que el PeriodEnd fue lo que tuvo el último registro: 
+
+![generoHistorico](/PeliculasWebAPI/images/GeneroHistorico.PNG)
+
+![generoDB7](/PeliculasWebAPI/images/GeneroDB7.PNG)
+
+Si volvemos a actualizar el mismo registro, en nuestra Tabla Generos Historicos, vemos los cambios. 
+
+![generoHistorico2](/PeliculasWebAPI/images/GeneroHistorico2.PNG)
+
+Si borramos el genero de forma definitiva, a través desde nuestro `endpoint`, obtenemos un status `200`.
+
+![generoBorrado](/PeliculasWebAPI/images/GeneroBorrado.PNG)
+
+Si consultamos la tabla Generos de nuestra Base de Datos, notamos que el registro se eliminó: 
+
+![generoDB8](/PeliculasWebAPI/images/GeneroDB8.PNG)
+
+Vemos el historico desde nuestra tabla Generos Historico. 
+
+![generoHistorico3](/PeliculasWebAPI/images/GeneroHistorico3.PNG)
+
+#### Consultando la Tabla Temporal e Histórica
 
