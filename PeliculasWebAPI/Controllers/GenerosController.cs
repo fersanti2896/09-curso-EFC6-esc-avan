@@ -320,5 +320,22 @@ namespace PeliculasWebAPI.Controllers {
 
             return Ok(generos);
         }
+
+        [HttpGet("TemporalAsOf/{id:int}")]
+        public async Task<ActionResult> GetTemporalAsOf(int id, DateTime fecha) {
+            var genero = await context.Generos
+                                      .TemporalAsOf(fecha)
+                                      .AsTracking()
+                                      .Where(g => g.Identificador == id)
+                                      .Select(g => new {
+                                            Id          = g.Identificador,
+                                            Nombre      = g.Nombre,
+                                            PeriodStart = EF.Property<DateTime>(g, "PeriodStart"),
+                                            PeriodEnd   = EF.Property<DateTime>(g, "PeriodEnd")
+                                      })
+                                      .FirstOrDefaultAsync();
+
+            return Ok(genero);
+        }
     }
 }

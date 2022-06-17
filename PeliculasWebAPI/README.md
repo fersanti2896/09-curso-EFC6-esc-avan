@@ -13,6 +13,7 @@ ___
 10. __CUD en la Tabla Temporal.__
 11. __Consultando la Tabla Temporal e Histórica.__
 12. __TemporalAsOf.__
+13. __TemporalFromTo.__
 
 #### Funciones Escalares
 
@@ -374,3 +375,17 @@ Al probar nuestro `endpoint` nos devuelve un status `200` el cual nos trae nuest
 ![GenerosConsultaVersiones](/PeliculasWebAPI/images/GeneroConsultaVersiones.PNG)
 
 #### TemporalAsOf
+
+Podemos usar esta función para saber los datos de un registro en cierta fecha indicada. 
+
+Para ello creamos un nuevo `endpoint` en `GenerosController.cs`.
+
+![TemporalAsOfGC](/PeliculasWebAPI/images/GeneroControllerTemporalAsOf.png)
+
+Al probar nuestro `endpoint` tenemos un status `200` con la versión del registro en la fecha determinada. 
+
+![TemporalAsOfResult](/PeliculasWebAPI/images/TemporalAsOf%20Result.PNG)
+
+
+#### TemporalFromTo
+
