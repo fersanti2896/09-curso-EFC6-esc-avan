@@ -14,6 +14,7 @@ ___
 11. __Consultando la Tabla Temporal e Histórica.__
 12. __TemporalAsOf.__
 13. __TemporalFromTo.__
+14. __TemporalContainedIn.__
 
 #### Funciones Escalares
 
@@ -388,4 +389,22 @@ Al probar nuestro `endpoint` tenemos un status `200` con la versión del registr
 
 
 #### TemporalFromTo
+
+También podemos filtrar todo las versiones de un registro por un rango de tiempo, por el cual, usamos el método `TemporalFromTo()`. 
+
+Creamos en un nuevo `endpoint` en nuestro `GenerosController.cs`.
+
+![TemporalFromToGenCon](/PeliculasWebAPI/images/GeneroControllerTemporalFromTo.png)
+
+Al dar el rango de fechas del id, obtenemos el status `200` con la data. 
+
+_Rango de Fecha_
+
+![TemporalFromToResult1](/PeliculasWebAPI/images/TemporalFromTo%20Result%201.PNG)
+
+_Data Resultante_
+
+![TemporalFromToResult2](/PeliculasWebAPI/images/TemporalFromTo%20Result%202.PNG)
+
+#### TemporalContainedIn
 

@@ -337,5 +337,22 @@ namespace PeliculasWebAPI.Controllers {
 
             return Ok(genero);
         }
+
+        [HttpGet("TemporalFromTo/{id:int}")]
+        public async Task<ActionResult> GetTemporalFromTo(int id, DateTime desde, DateTime hasta) {
+            var generos = await context.Generos
+                                       .TemporalFromTo(desde, hasta)
+                                       .AsTracking()
+                                       .Where(g => g.Identificador == id)
+                                       .Select(g => new {
+                                            Id          = g.Identificador,
+                                            Nombre      = g.Nombre,
+                                            PeriodStart = EF.Property<DateTime>(g, "PeriodStart"),
+                                            PeriodEnd   = EF.Property<DateTime>(g, "PeriodEnd")
+                                       })
+                                       .ToListAsync();
+
+            return Ok(generos);
+        }
     }
 }
