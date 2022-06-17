@@ -34,9 +34,9 @@ namespace PeliculasWebAPI.Controllers {
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Genero>> PorId(int id) {
-            /**var genero = await context.Generos
+            var genero = await context.Generos
                                       .AsTracking()
-                                      .FirstOrDefaultAsync(p => p.Identificador == id); **/
+                                      .FirstOrDefaultAsync(p => p.Identificador == id);
 
             /* Querie Arbitrario Forma 1 */
             /**var genero = await context.Generos
@@ -45,10 +45,10 @@ namespace PeliculasWebAPI.Controllers {
                                       .FirstOrDefaultAsync(); **/
 
             /* Querie Arbitrario Forma 2 */
-            var genero = await context.Generos
+            /* var genero = await context.Generos
                                       .FromSqlInterpolated($"SELECT * FROM Generos WHERE Identificador = {id}")
                                       .IgnoreQueryFilters()
-                                      .FirstOrDefaultAsync();
+                                      .FirstOrDefaultAsync(); */
 
             if (genero is null) {
                 return NotFound();
@@ -59,10 +59,20 @@ namespace PeliculasWebAPI.Controllers {
                                        .Property<DateTime>("FechaCreacion")
                                        .CurrentValue;
 
+            var periodStar    = context.Entry(genero)
+                                       .Property<DateTime>("PeriodStart")
+                                       .CurrentValue;
+
+            var periodEnd     = context.Entry(genero)
+                                       .Property<DateTime>("PeriodEnd")
+                                       .CurrentValue;
+
             return Ok(new { 
                         Id     = genero.Identificador,
                         Nombre = genero.Nombre,
-                        fechaCreacion
+                        fechaCreacion, 
+                        periodStar,
+                        periodEnd
                    });
         }
 
@@ -258,6 +268,57 @@ namespace PeliculasWebAPI.Controllers {
             await context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        [HttpPut("ModificaVariasVeces")]
+        public async Task<ActionResult> ModificarVariasVeces() {
+            var id     = 3;
+            var genero = await context.Generos
+                                      .AsTracking()
+                                      .FirstOrDefaultAsync(g => g.Identificador == id);
+
+            genero.Nombre = "Comedia 2";
+            await context.SaveChangesAsync();
+            await Task.Delay(2000);
+
+            genero.Nombre = "Comedia 3";
+            await context.SaveChangesAsync();
+            await Task.Delay(2000);
+
+            genero.Nombre = "Comedia 4";
+            await context.SaveChangesAsync();
+            await Task.Delay(2000);
+
+            genero.Nombre = "Comedia 5";
+            await context.SaveChangesAsync();
+            await Task.Delay(2000);
+
+            genero.Nombre = "Comedia 6";
+            await context.SaveChangesAsync();
+            await Task.Delay(2000);
+
+            genero.Nombre = "Comedia Actual";
+            await context.SaveChangesAsync();
+            await Task.Delay(2000);
+
+            return Ok();
+        }
+
+        [HttpGet("TemporalAll/{id:int}")]
+        public async Task<ActionResult> GetTemporalAll(int id) {
+            var generos = await context.Generos
+                                       .TemporalAll()
+                                       .AsTracking()
+                                       .Where(g => g.Identificador == id)
+                                       .Select(g => new {
+                                            Id          = g.Identificador,
+                                            Nombre      = g.Nombre,
+                                            PeriodStart = EF.Property<DateTime>(g, "PeriodStart"),
+                                            PeriodEnd   = EF.Property<DateTime>(g, "PeriodEnd")
+                                       })
+                                       .ToListAsync();
+
+            return Ok(generos);
         }
     }
 }

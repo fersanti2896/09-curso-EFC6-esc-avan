@@ -12,6 +12,7 @@ ___
 9. __Tablas Temporales.__
 10. __CUD en la Tabla Temporal.__
 11. __Consultando la Tabla Temporal e Histórica.__
+12. __TemporalAsOf.__
 
 #### Funciones Escalares
 
@@ -338,3 +339,38 @@ Vemos el historico desde nuestra tabla Generos Historico.
 
 #### Consultando la Tabla Temporal e Histórica
 
+Creamos un `endpoint` que va actualizar repetidas ocasiones un genero, esto desde `GenerosController.cs`.
+
+![mofiicarVariaVeces](/PeliculasWebAPI/images/GenerosControllerModificar.png)
+
+Al probar el `endpoint` obtenemos un status `200`.
+
+![ModifcarVariasVecesResult](/PeliculasWebAPI/images/ModificarVariasVecesGenero.PNG)
+
+Si consultamos nuestra tabla, tenemos lo siguiente. 
+
+![GeneroDB9](/PeliculasWebAPI/images/GeneroDB9.PNG)
+
+Nuestra tabla Generos Historico, registra la serie de cambios. 
+
+![GenerosHistorico4](/PeliculasWebAPI/images/GeneroHistorico4.PNG)
+
+Si queremos consultar nuestra tabla Generos Temporal, modificamos nuestro `endpoint` de `GenerosController.cs`.
+
+![GenerosControllerid](/PeliculasWebAPI/images/GenerosControllerConsultaTemporal.png)
+
+Al probar nuestro `endpoint` obtenemos un status `200` con los datos que nos interesan. 
+
+![GenerosConsultaResult](/PeliculasWebAPI/images/GeneroConsulta.PNG)
+
+Si queremos ver el historico de las versiones, creamos un `endpoint` en `GenerosController.cs`. 
+
+Con el método `TemporalAll()` traemos todos los registros de nuestra tabla temporal como del histórico. 
+
+![GenerosControllerVeriones](/PeliculasWebAPI/images/GenerosControllerConsultaVersiones.png)
+
+Al probar nuestro `endpoint` nos devuelve un status `200` el cual nos trae nuestra data de tabla del histórico. 
+
+![GenerosConsultaVersiones](/PeliculasWebAPI/images/GeneroConsultaVersiones.PNG)
+
+#### TemporalAsOf
