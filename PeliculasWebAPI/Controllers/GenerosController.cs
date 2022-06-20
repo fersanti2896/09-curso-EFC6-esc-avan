@@ -388,5 +388,34 @@ namespace PeliculasWebAPI.Controllers {
 
             return Ok(generos);
         }
+
+        [HttpPost("Restaurar_Borrado/{id:int}")]
+        public async Task<ActionResult> RestaurarBorrado(int id, DateTime fecha) {
+            var genero = await context.Generos
+                                      .TemporalAsOf(fecha)
+                                      .AsTracking()
+                                      .IgnoreQueryFilters()
+                                      .FirstOrDefaultAsync(g => g.Identificador == id);
+
+            if (genero is null) {
+                return NotFound();
+            }
+
+            /* Restauramos el registro con el id con un query arbitrario */
+            try {
+                await context.Database
+                             .ExecuteSqlInterpolatedAsync($@"
+                                SET IDENTITY_INSERT Generos ON;
+                                INSERT INTO Generos (Identificador, Nombre)
+                                VALUES ({ genero.Identificador }, { genero.Nombre })
+                                SET IDENTITY_INSERT Generos OFF;"
+                             );
+            } finally {
+                await context.Database
+                             .ExecuteSqlRawAsync("SET IDENTITY_INSERT Generos OFF;");
+            }
+
+            return Ok();
+        }
     }
 }

@@ -17,6 +17,7 @@ ___
 14. __TemporalContainedIn.__
 15. __TemporalBetween.__
 16. __Restuarando un Registro Borrado.__
+17. __Personalizando la Tabla Temporal e Histórica.__
 
 #### Funciones Escalares
 
@@ -441,4 +442,28 @@ Es parecido al método `TemporalFromTo()` solo que `TemporalBetween()` tiene la 
 ![TemporalBetween2](/PeliculasWebAPI/images/TemporalBetween%20Result2.PNG)
 
 #### Restuarando un Registro Borrado
+
+Si tenemos registros eliminados de la tabla temporal, pero que aún se tiene registro en el histórico, podemos restaurarlo, inclusivo, podemos restaurar la versión del registro que deseamos. 
+
+Creamos el `endpoint` de tipo `POST` en nuestro `GenerosController.cs`, el cual va contener el método mencionado, con un query arbitrario.
+
+![RestauraBorradoGenCont](/PeliculasWebAPI/images/GeneroControllerRestauraBorrado.png)
+
+Notamos que en nuestra Tabla Generos Temporal no tenemos el registro de la versión 3 con _id: 27_.
+
+![GeneroDB10](/PeliculasWebAPI/images/GeneroDB10.PNG)
+
+Al probar dando el id y la fecha de la versión del registro. 
+
+![RestaurarBorrado1](/PeliculasWebAPI/images/RestaurarBorrado1.PNG)
+
+Obtenemos un status `200` de que el registro se pudo restaurar e insertar en la Tabla Generos Temporal. 
+
+![ResturarBorrado2](/PeliculasWebAPI/images/RestaurarBorrado2.PNG)
+
+Al ver en nuestra tabla Generos Temporal en nuestra Base de Datos, ya se encuentra el registro resturado. 
+
+![GeneroDB11](/PeliculasWebAPI/images/GeneroDB11.PNG)
+
+#### Personalizando la Tabla Temporal e Histórica
 
