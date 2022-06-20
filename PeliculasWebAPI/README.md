@@ -15,6 +15,7 @@ ___
 12. __TemporalAsOf.__
 13. __TemporalFromTo.__
 14. __TemporalContainedIn.__
+15. __TemporalBetween.__
 
 #### Funciones Escalares
 
@@ -407,4 +408,21 @@ _Data Resultante_
 ![TemporalFromToResult2](/PeliculasWebAPI/images/TemporalFromTo%20Result%202.PNG)
 
 #### TemporalContainedIn
+
+Sirve para ver que versiones estuvieron activas o terminaron de estar activas en un cierto tiempo de fecha, es decir, totalmente contenidos. 
+
+Creamos el `endpoint` en nuestro `GenerosController.cs`, el cual va contener el método mencionado. 
+
+![TemporalContainedInGenContr](/PeliculasWebAPI/images/GeneroControllerTemporalContainedIn.png)
+
+Al dar el rango de fecha indicado, solo mostrará los géneros que estén totalmente contenidos en ese rango de fechas. 
+
+![TemporalContainedIn1](/PeliculasWebAPI/images/TemporalContainedIn%20Result%201.PNG)
+
+El resultado nos devuelve un status `200` con dos géneros.
+
+![TemporalContainedIn2](/PeliculasWebAPI/images/TemporalContainedIn%20Result%202.PNG)
+
+#### TemporalBetween
+
 
