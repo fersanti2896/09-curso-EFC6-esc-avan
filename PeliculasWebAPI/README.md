@@ -16,6 +16,7 @@ ___
 13. __TemporalFromTo.__
 14. __TemporalContainedIn.__
 15. __TemporalBetween.__
+16. __Restuarando un Registro Borrado.__
 
 #### Funciones Escalares
 
@@ -425,4 +426,19 @@ El resultado nos devuelve un status `200` con dos géneros.
 
 #### TemporalBetween
 
+Con este método podemos realizar una consulta en los registros activos en un rango de fecha con la particularidad de que si la fecha final coincide con la fecha de inicio de un registro, este es incluido en el resultado. 
+
+Creamos el `endpoint` en nuestro `GenerosController.cs`, el cual va contener el método mencionado. 
+
+![TemporalBetweenGenController](/PeliculasWebAPI/images/GeneroControllerTemporalBetween.png)
+
+Al dar el rango de fecha indicado, muestra los generos que están en ese rango de fecha más el registro que está próximo a la derecha. 
+
+![TemporalBetween1](/PeliculasWebAPI/images/TemporalBetween%20Result1.PNG)
+
+Es parecido al método `TemporalFromTo()` solo que `TemporalBetween()` tiene la particularidad de incluir el registro del extremo derecho que coincide con la misma fecha, el cual devuelve un status `200` con los registros mencionados. 
+
+![TemporalBetween2](/PeliculasWebAPI/images/TemporalBetween%20Result2.PNG)
+
+#### Restuarando un Registro Borrado
 
