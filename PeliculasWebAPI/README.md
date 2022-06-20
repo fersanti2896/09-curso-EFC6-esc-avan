@@ -467,3 +467,21 @@ Al ver en nuestra tabla Generos Temporal en nuestra Base de Datos, ya se encuent
 
 #### Personalizando la Tabla Temporal e Histórica
 
+Al configurar una tabla como temporal, se agregan los campos `PeriodStart` y `PeriodEnd` además de que se crea una tabla con el nombre `History`, se puede personalizar estas configuraciones .
+
+Vamos a configurar la tabla `Factura` como temporal, para ello lo hacemos desde su `API Fluent` de `FacturaConfig.cs`.
+
+![facturaConfig](/PeliculasWebAPI/images/FacturaConfig.png)
+
+Posteriormente hacemos la migración y empujamos los cambios hacia la Base de Datos. 
+
+![FacturaTemporalMigracion](/PeliculasWebAPI/images/FacturasTemporalMigracion.png)
+
+Al comprobar los cambios en la Base de Datos, notamos que la Tabla Factura Temporal ya tiene los cambios personalizados. 
+
+![Facturatemporal](/PeliculasWebAPI/images/FacturasDB1.PNG)
+
+En la tabla Factura Historico ya viene de igual forma personalizada. 
+
+![FacturaHistorico](/PeliculasWebAPI/images/FacturasHistorico1.PNG)
+
